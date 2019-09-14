@@ -5,10 +5,7 @@ import com.mg.service.User;
 import com.mg.service.impl.LoginServiceImpl;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 public class LoginServiceServlet extends HttpServlet {
@@ -31,9 +28,10 @@ public class LoginServiceServlet extends HttpServlet {
             ck.setPath("/mg");
             ck.setMaxAge(15);
             resp.addCookie(ck);
-
-            req.setAttribute("uname",uname);
-            req.getRequestDispatcher("main.jsp").forward(req,resp);
+            HttpSession session = req.getSession();
+            session.setMaxInactiveInterval(15);
+            session.setAttribute("uname",uname);
+            resp.sendRedirect("/mg/main");
         }
     }
 }

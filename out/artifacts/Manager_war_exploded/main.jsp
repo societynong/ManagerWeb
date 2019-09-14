@@ -11,6 +11,11 @@
     <title>Main</title>
 </head>
 <body>
-    Welcome,<%out.write((String)request.getAttribute("uname"));%> to login.
+    Welcome,<%
+        String uname = (String) session.getAttribute("uname");
+        if(uname == null)
+            response.sendRedirect("/mg/login");
+        else
+            out.write((String)session.getAttribute("uname"));%> to login.
 </body>
 </html>

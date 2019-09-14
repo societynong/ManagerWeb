@@ -5,10 +5,7 @@ import com.mg.service.User;
 import com.mg.service.impl.LoginServiceImpl;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 public class EntranceServlet extends HttpServlet {
@@ -24,12 +21,15 @@ public class EntranceServlet extends HttpServlet {
             for(int i = 0 ; i < cks.length ; ++i)
                 if("uid".equals(cks[i].getName())) {
                     req.setAttribute("uname",ls.getUserByUid(Integer.parseInt(cks[i].getValue())).getUname());
-                    req.getRequestDispatcher("main.jsp").forward(req,resp);
+                    HttpSession session = req.getSession();
+                    session.setMaxInactiveInterval(15);
+                    session.setAttribute("uname",ls.getUserByUid(Integer.parseInt(cks[i].getValue())).getUname());
+                    resp.sendRedirect("/mg/main");
                     return;
                 }
 
         }
 
-        resp.sendRedirect("login.jsp");
+        resp.sendRedirect("/mg/login");
     }
 }
